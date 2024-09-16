@@ -58,7 +58,7 @@ def main():
     if task == "quantify":
         validArgList = ["-task", "-refgene", "-bam", "-out", "-max_distance", "-f_weight", "-threads"]
         addAbsPath = [0, 1, 1, 3, 0, 0, 0]
-        message = "liqa -task quantify -refgene <refgene_file> -bam <bam_file> -out <output_file> -max_distance <max distance> -f_weight <weight of F function>"
+        message = "liqa -task quantify -refgene <refgene_file> -bam <bam_file> -out <output_file> -max_distance <max distance> -f_weight <weight of F function> -threads <number of threads>"
         inputs = my.parse_argument(validArgList, addAbsPath, message)
         refFile = inputs[1]
         bamFile = inputs[2]
