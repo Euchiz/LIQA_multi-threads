@@ -555,20 +555,19 @@ def processGene(gene):
         result.append(gene+"\t"+isoformNames[i]+"\t"+str(rpg_lengthcorrected)+"\t"+str(isoformRelativeAbundances[i])+"\t"+str(fisherinf))
     return '\n'.join(result) + '\n'
 
-
-with Pool(threads) if threads > 1 else None as pool:
-    if threads > 1:
+if threads > 1:
+    with Pool(threads) as pool:
         # Use imap_unordered for parallel processing
         mapper = pool.imap_unordered
-    else:
-        # Use regular map for single-threaded
-        mapper = map
+else:
+    # Use regular map for single-threaded
+    mapper = map
     
-    # Process each gene and write results safely
-    for result in mapper(processGene, list(geneStructureInformation.keys())):
-        sys.stdout.flush() 
-        with lock:
-            OUT.write(result)
+# Process each gene and write results safely
+for result in mapper(processGene, list(geneStructureInformation.keys())):
+    sys.stdout.flush() 
+    with lock:
+        OUT.write(result)
 
 OUT.close()
             
