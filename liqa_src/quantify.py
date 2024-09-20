@@ -566,6 +566,7 @@ with Pool(threads) if threads > 1 else None as pool:
     
     # Process each gene and write results safely
     for result in mapper(processGene, list(geneStructureInformation.keys())):
+        sys.stdout.flush() 
         with lock:
             OUT.write(result)
 
