@@ -8,8 +8,6 @@ from lifelines import KaplanMeierFitter
 kmf = KaplanMeierFitter()
 from multiprocessing import Pool
 
-sys.stdout.flush()
-
 # set up auto dictionary function
 def auto_dict():
     return defaultdict(auto_dict)
