@@ -7,6 +7,9 @@ import math, sys, os, re, pysam, time
 from lifelines import KaplanMeierFitter
 kmf = KaplanMeierFitter()
 from multiprocessing import Pool
+
+sys.stdout.flush()
+
 # set up auto dictionary function
 def auto_dict():
     return defaultdict(auto_dict)
@@ -230,6 +233,7 @@ def processGene(gene):
     
     for readName in sameReadCount:
         
+        print(readName+"\tprocessing...")
         # load CIGAR information
         cigarNumberRead1 = auto_dict()
         cigarNumberRead2 = auto_dict()
@@ -388,7 +392,7 @@ def processGene(gene):
     if readCount == 0: return ''
     fisherinf = readCount1iso/float(prereadCount)
     if fisherinf < infthreshold: return ''
-    print(gene+"\tprocessing...")
+    #print(gene+"\tprocessing...")
     
     ##############################################################################################################
     ### ANALYZE EMPIRICAL READS DISTRIBUTION BASED ON NON-PARAMATRIC METHOD
