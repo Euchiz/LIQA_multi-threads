@@ -6,7 +6,8 @@ import functools
 import math, sys, os, re, pysam, time
 from lifelines import KaplanMeierFitter
 kmf = KaplanMeierFitter()
-from multiprocessing import Pool
+from multiprocessing import Pool, Lock
+lock = Lock()
 
 # set up auto dictionary function
 def auto_dict():
@@ -231,7 +232,7 @@ def processGene(gene):
     
     for readName in sameReadCount:
         
-        print(readName+"\tprocessing...")
+        #print(readName+"\tprocessing...")
         # load CIGAR information
         cigarNumberRead1 = auto_dict()
         cigarNumberRead2 = auto_dict()
@@ -390,7 +391,7 @@ def processGene(gene):
     if readCount == 0: return ''
     fisherinf = readCount1iso/float(prereadCount)
     if fisherinf < infthreshold: return ''
-    #print(gene+"\tprocessing...")
+    print(gene+"\tprocessing...")
     
     ##############################################################################################################
     ### ANALYZE EMPIRICAL READS DISTRIBUTION BASED ON NON-PARAMATRIC METHOD
@@ -554,14 +555,19 @@ def processGene(gene):
         result.append(gene+"\t"+isoformNames[i]+"\t"+str(rpg_lengthcorrected)+"\t"+str(isoformRelativeAbundances[i])+"\t"+str(fisherinf))
     return '\n'.join(result) + '\n'
 
-if threads > 1:
-    mapper = functools.partial(Pool(threads).imap_unordered, chunksize=1)
-else:
-    mapper = map
-for result in mapper(processGene, list(geneStructureInformation.keys())):
-    OUT.write(result)
-if threads > 1:
-    Pool(threads).close()
+
+with Pool(threads) if threads > 1 else None as pool:
+    if threads > 1:
+        # Use imap_unordered for parallel processing
+        mapper = pool.imap_unordered
+    else:
+        # Use regular map for single-threaded
+        mapper = map
+    
+    # Process each gene and write results safely
+    for result in mapper(processGene, list(geneStructureInformation.keys())):
+        with lock:
+            OUT.write(result)
 
 OUT.close()
             
