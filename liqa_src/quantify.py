@@ -6,8 +6,7 @@ import functools
 import math, sys, os, re, pysam, time
 from lifelines import KaplanMeierFitter
 kmf = KaplanMeierFitter()
-from multiprocessing import Pool, Lock
-lock = Lock()
+from multiprocessing import Pool
 
 # set up auto dictionary function
 def auto_dict():
@@ -566,8 +565,7 @@ else:
 # Process each gene and write results safely
 for result in mapper(processGene, list(geneStructureInformation.keys())):
     sys.stdout.flush() 
-    with lock:
-        OUT.write(result)
+    OUT.write(result)
 
 OUT.close()
             
