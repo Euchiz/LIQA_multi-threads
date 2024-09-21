@@ -99,9 +99,6 @@ with open(refGeneFile, "r") as FP:
     #weightF = 0
 infthreshold = float(weightF)/10.0
 
-## RESULTS FILE
-OUT = open(outFile, 'w')
-
 
 ###########################################################################################################################
 ###  START TO ANALYZE DATA FOR EACH GENE ###
@@ -111,8 +108,6 @@ geneCount = 0
 
 startTime = time.time()
 
-#OUT.write("GeneName\tIsoformName\tNumberOfReads\tRelativeAbundance\n") ## Header of Results
-OUT.write("GeneName\tIsoformName\tReadPerGene_corrected\tRelativeAbundance\tinfor_ratio\n")
 
 def processGene(gene):
 
@@ -554,6 +549,14 @@ def processGene(gene):
         result.append(gene+"\t"+isoformNames[i]+"\t"+str(rpg_lengthcorrected)+"\t"+str(isoformRelativeAbundances[i])+"\t"+str(fisherinf))
     return '\n'.join(result) + '\n'
 
+    
+
+###########################################################################################################################
+###  WRITING RESULTS ###
+##########################################################################################################################
+
+
+## enabling multi-threads pool
 if threads > 1:
     with Pool(threads) as pool:
         # Use imap_unordered for parallel processing
@@ -561,13 +564,18 @@ if threads > 1:
 else:
     # Use regular map for single-threaded
     mapper = map
-    
-# Process each gene and write results safely
-for result in mapper(processGene, list(geneStructureInformation.keys())):
-    sys.stdout.flush() 
-    OUT.write(result)
 
-OUT.close()
+## RESULTS FILE
+with open(outFile, 'w') as OUT:
+    # write the header
+    OUT.write("GeneName\tIsoformName\tReadPerGene_corrected\tRelativeAbundance\tinfor_ratio\n")
+
+    # process each gene and write results
+    for result in mapper(processGene, list(geneStructureInformation.keys())):
+        sys.stdout.flush()
+        OUT.write(result)
+        OUT.flush()
+
             
                             
 
