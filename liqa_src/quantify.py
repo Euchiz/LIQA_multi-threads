@@ -577,6 +577,8 @@ else:
     # Use regular map for single-threaded
     writeResult(map)
 
+print("Analysis completed!")
+
 
             
                             
