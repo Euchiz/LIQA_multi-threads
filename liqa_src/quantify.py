@@ -31,6 +31,9 @@ outFileExists = 0
 misFileExists = 0
 weightFileExists = 0
 threads = 1
+misMatch = 20
+weightF = 1
+
 for argIndex in range(1,len(sys.argv)):
     if sys.argv[argIndex] == "-bam":  ## load in BAM file
         argIndex += 1
