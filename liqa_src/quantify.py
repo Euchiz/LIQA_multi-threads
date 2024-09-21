@@ -390,7 +390,7 @@ def processGene(gene):
     if readCount == 0: return ''
     fisherinf = readCount1iso/float(prereadCount)
     if fisherinf < infthreshold: return ''
-    print(gene+"\tprocessing...\t"+gene_processed+"/"+len(geneStructureInformation))
+    print(gene+"\tprocessing...\t"+str(gene_processed)+"/"+str(len(geneStructureInformation)))
     
     ##############################################################################################################
     ### ANALYZE EMPIRICAL READS DISTRIBUTION BASED ON NON-PARAMATRIC METHOD
