@@ -74,7 +74,7 @@ samtools view bam_file -F 2308 -q 50 -O BAM -o bam_filtered
 
 Then, user needs to give  `refgene_File`, `bam_file` to LIQA to estimate isoform expression using long-read RNA-seq data:
 ```
-liqa -task quantify -refgene <refgene_file> -bam <bam_file> -out <output_file>
+liqa -task quantify -refgene <refgene_file> -bam <bam_file> -out <output_file> \
 	-max_distance <max distance> -f_weight <weight of F function> -threads <number of threads>
 ```
 where
