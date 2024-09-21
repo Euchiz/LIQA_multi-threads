@@ -1,4 +1,4 @@
-# Instruction about how to use LIQA
+# HOW TO USE LIQA
 
 The inputs of LIQA are aligned long-read RNA-seq data in BAM format and a reference isoform annotation file (Ensembl/Refseq). User needs to specify `-task` to perform in each step:
 ```
