@@ -74,7 +74,7 @@ samtools view bam_file -F 2308 -q 50 -O BAM -o bam_filtered
 
 Then, user needs to give  `refgene_File`, `bam_file` to LIQA to estimate isoform expression using long-read RNA-seq data:
 ```
-liqa -task quantify -refgene <refgene_file> -bam <bam_file> -out <output_file> -max_distance <max distance> -f_weight <weight of F function>
+liqa -task quantify -refgene <refgene_file> -bam <bam_file> -out <output_file> -max_distance <max distance> -f_weight <weight of F function> -threads <number of threads>
 ```
 where
 ```
@@ -82,6 +82,7 @@ where
 <refgene_file>: A reference file obtained from step 1.
 <max distance>: The maximum length of an alignment error at exon boundary. Recommend: 20.
 <weight of F function>: The weight for bias correction in isoform usage estimation. Recommend: 1
+<threads>: Number of threads to use. Default: 1
 ```
 
 For example:
