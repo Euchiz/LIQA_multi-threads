@@ -556,25 +556,27 @@ def processGene(gene):
 ##########################################################################################################################
 
 
+def writeResult(mapper):
+    with open(outFile, 'w') as OUT:
+        # Write the header
+        OUT.write("GeneName\tIsoformName\tReadPerGene_corrected\tRelativeAbundance\tinfor_ratio\n")
+
+        # Process each gene and write results
+        for result in mapper(processGene, list(geneStructureInformation.keys())):
+            sys.stdout.flush()
+            OUT.write(result)
+            OUT.flush()
+
+
 ## enabling multi-threads pool
 if threads > 1:
     with Pool(threads) as pool:
         # Use imap_unordered for parallel processing
-        mapper = pool.imap_unordered
+        writeResult(pool.imap_unordered)
 else:
     # Use regular map for single-threaded
-    mapper = map
+    writeResult(map)
 
-## RESULTS FILE
-with open(outFile, 'w') as OUT:
-    # write the header
-    OUT.write("GeneName\tIsoformName\tReadPerGene_corrected\tRelativeAbundance\tinfor_ratio\n")
-
-    # process each gene and write results
-    for result in mapper(processGene, list(geneStructureInformation.keys())):
-        sys.stdout.flush()
-        OUT.write(result)
-        OUT.flush()
 
             
                             
