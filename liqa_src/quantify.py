@@ -111,14 +111,9 @@ geneCount = 0
 
 startTime = time.time()
 
-#counter for processGene calls
-gene_processed = 0
-
 
 def processGene(gene):
 
-    global gene_processed
-    gene_processed += 1
 
     tmpTime = (time.time() - startTime)/60.0
     
@@ -393,7 +388,7 @@ def processGene(gene):
     if readCount == 0: return ''
     fisherinf = readCount1iso/float(prereadCount)
     if fisherinf < infthreshold: return ''
-    print(gene+"\tprocessing...\t"+str(gene_processed)+"/"+str(len(geneStructureInformation)))
+    print(gene+"\tprocessing...")
     
     ##############################################################################################################
     ### ANALYZE EMPIRICAL READS DISTRIBUTION BASED ON NON-PARAMATRIC METHOD
@@ -482,7 +477,7 @@ def processGene(gene):
             
     diff = 1.0
     iterCount = 0
-    while diff > .0001:
+    while diff > .0001 and iterCount < 100:  #set maxIter. retain 95% of data. trade-off for efficiency. also avoid hanging the program.
         #print(gene+"\t"+str(geneCount)+"\t"+str(iterCount)+"\t"+str(diff)+"\t"+str(tmpTime))
         up = None
         down = None
