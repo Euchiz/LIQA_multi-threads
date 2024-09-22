@@ -81,9 +81,9 @@ where
 ```
 <bam>_file: A bam file.
 <refgene_file>: A reference file obtained from step 1.
-<max distance>: The maximum length of an alignment error at exon boundary. Default: 20.
-<weight of F function>: The weight for bias correction in isoform usage estimation. Default: 1
-<threads>: Number of threads to use. Default: 1
+<max distance>: The maximum length of an alignment error at exon boundary. Recommended: 20.
+<weight of F function>: The weight for bias correction in isoform usage estimation. Recommended: 1
+<threads>: Number of threads to use. 
 ```
 
 For example:
